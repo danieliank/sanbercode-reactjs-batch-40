@@ -17,30 +17,31 @@ const Tugas12 = () => {
     const [fetchStatus, setFetchStatus] = useState(true)
     
     useEffect( () => {
-        axios.get('https://backendexample.sanbercloud.com/api/student-scores').then((res) => {
-            let data = res.data
-            console.log(data)
+        if(fetchStatus === true) {
+            axios.get('https://backendexample.sanbercloud.com/api/student-scores').then((res) => {
+                let data = res.data
+                console.log(data)
 
-            let resultData = data.map((e) => {
+                let resultData = data.map((e) => {
 
-                let {
-                    name,
-                    course,
-                    score,
-                } = e
+                    let {
+                        name,
+                        course,
+                        score,
+                    } = e
 
-                return {
-                    name,
-                    course,
-                    score,
-                } = e
+                    return {
+                        name,
+                        course,
+                        score,
+                    } = e
+                })
+
+                setData([...resultData])
             })
-
-            setData([...resultData])
-        })
-        .catch((err) => {
-  
-        }) 
+            .catch((err) => {})
+            setFetchStatus(false) 
+        }
     }, [fetchStatus, setFetchStatus] )
     console.log(data)
 
@@ -62,9 +63,7 @@ const Tugas12 = () => {
         let name = event.target.name
         let value = event.target.value
 
-        if (name === "name") {
-            setInput({...input, name: value})
-        }
+        setInput({...input, [name] : value})
     }
 
     const handleSubmit = (event) => {
